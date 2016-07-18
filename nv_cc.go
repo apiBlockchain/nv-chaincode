@@ -311,13 +311,13 @@ func (t *SimpleChaincode) Run(stub *shim.ChaincodeStub, function string, args []
 	} else if function == "transferPoints" {											//create a transaction
 		return t.transferPoints(stub, args)
 	} else if function == "getTxs" {											//create a transaction
-		return t.getTxs(stub, args)
+		return t.getTxs(stub, args[1])
 	} else if function == "getUserAccount" {											//create a transaction
-		return t.getUserAccount(stub, args)
+		return t.getUserAccount(stub, args[1])
 	} else if function == "getContractDetails" {											//create a transaction
-		return t.getContractDetails(stub, args)
+		return t.getContractDetails(stub, args[1])
 	} else if function == "getAllContracts" {											//create a transaction
-		return t.getAllContracts(stub, args)
+		return t.getAllContracts(stub)
 	} 
 	
 	
