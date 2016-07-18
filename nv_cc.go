@@ -331,21 +331,21 @@ func (t *SimpleChaincode) Run(stub *shim.ChaincodeStub, function string, args []
 // ============================================================================================================================
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 
-	if len(args) != 2 { return nil, errors.New("Incorrect number of arguments passed") }
+	fmt.Println("query is running " + function)
 
-	if args[0] != "getFIDetails" && args[0] != "getTxs" && args[0] != "getNVAccounts"&& args[0] != "getUserAccount"  && args[0] != "getContractDetails"  && args[0] != "getAllContracts"{
-		return nil, errors.New("Invalid query function name.")
-	}
-
-	if args[0] == "getFIDetails" { return t.getFinInstDetails(stub, args[1]) }
-	if args[0] == "getNVAccounts" { return t.getNVAccounts(stub, args[1]) }
-	if args[0] == "getTxs" { return t.getTxs(stub, args[1]) }
-	if args[0] == "getUserAccount" { return t.getUserAccount(stub, args[1]) }
-	if args[0] == "getContractDetails" { return t.getContractDetails(stub, args[1]) }
-	if args[0] == "getAllContracts" { return t.getAllContracts(stub) }
+	// Handle different functions
+	if function == "read" {		
 	
+		if args[0] == "getFIDetails" { return t.getFinInstDetails(stub, args[1]) }
+		if args[0] == "getNVAccounts" { return t.getNVAccounts(stub, args[1]) }
+		if args[0] == "getTxs" { return t.getTxs(stub, args[1]) }
+		if args[0] == "getUserAccount" { return t.getUserAccount(stub, args[1]) }
+		if args[0] == "getContractDetails" { return t.getContractDetails(stub, args[1]) }
+		if args[0] == "getAllContracts" { return t.getAllContracts(stub) }
+	}
+	fmt.Println("query did not find func: " + function)						//error
 
-	return nil, nil										
+	return nil, errors.New("Received unknown function query")										
 }
 
 
