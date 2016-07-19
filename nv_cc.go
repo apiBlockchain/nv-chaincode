@@ -24,10 +24,11 @@ import (
 	"fmt"
 	"time"
 	"strconv"
-	"github.com/hyperledger/fabric/core/chaincode/shim"
+	"github.com/openblockchain/obc-peer/openchain/chaincode/shim"
+	
 	
 )
-//"github.com/openblockchain/obc-peer/openchain/chaincode/shim"
+//"github.com/hyperledger/fabric/core/chaincode/shim"
 const   BANKA = "BANKA"
 const   BANKB = "BANKB"
 const   BANKC = "BANKC"
