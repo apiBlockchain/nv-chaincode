@@ -1,18 +1,15 @@
+
 /*
 Copyright 2016 IBM
-
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
-
     http://www.apache.org/licenses/LICENSE-2.0
-
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
-
 Licensed Materials - Property of IBM
 © Copyright IBM Corp. 2016
 */
@@ -25,10 +22,8 @@ import (
 	"time"
 	"strconv"
 	"github.com/openblockchain/obc-peer/openchain/chaincode/shim"
-	
-	
 )
-//"github.com/hyperledger/fabric/core/chaincode/shim"
+
 const   BANKA = "BANKA"
 const   BANKB = "BANKB"
 const   BANKC = "BANKC"
@@ -312,14 +307,6 @@ func (t *SimpleChaincode) Run(stub *shim.ChaincodeStub, function string, args []
 		return t.updateUserAccount(stub, args) 
 	} else if function == "transferPoints" {											//create a transaction
 		return t.transferPoints(stub, args)
-	} else if function == "getTxs" {											//create a transaction
-		return t.getTxs(stub, args[1])
-	} else if function == "getUserAccount" {											//create a transaction
-		return t.getUserAccount(stub, args[1])
-	} else if function == "getContractDetails" {											//create a transaction
-		return t.getContractDetails(stub, args[1])
-	} else if function == "getAllContracts" {											//create a transaction
-		return t.getAllContracts(stub)
 	} 
 	
 	
@@ -333,21 +320,21 @@ func (t *SimpleChaincode) Run(stub *shim.ChaincodeStub, function string, args []
 // ============================================================================================================================
 func (t *SimpleChaincode) Query(stub *shim.ChaincodeStub, function string, args []string) ([]byte, error) {
 
-	fmt.Println("query is running " + function)
+	if len(args) != 2 { return nil, errors.New("Incorrect number of arguments passed") }
 
-	// Handle different functions
-	if function == "read" {		
-	
-		if args[0] == "getFIDetails" { return t.getFinInstDetails(stub, args[1]) }
-		if args[0] == "getNVAccounts" { return t.getNVAccounts(stub, args[1]) }
-		if args[0] == "getTxs" { return t.getTxs(stub, args[1]) }
-		if args[0] == "getUserAccount" { return t.getUserAccount(stub, args[1]) }
-		if args[0] == "getContractDetails" { return t.getContractDetails(stub, args[1]) }
-		if args[0] == "getAllContracts" { return t.getAllContracts(stub) }
+	if args[0] != "getFIDetails" && args[0] != "getTxs" && args[0] != "getNVAccounts"&& args[0] != "getUserAccount"  && args[0] != "getContractDetails"  && args[0] != "getAllContracts"{
+		return nil, errors.New("Invalid query function name.")
 	}
-	fmt.Println("query did not find func: " + function)						//error
 
-	return nil, errors.New("Received unknown function query")										
+	if args[0] == "getFIDetails" { return t.getFinInstDetails(stub, args[1]) }
+	if args[0] == "getNVAccounts" { return t.getNVAccounts(stub, args[1]) }
+	if args[0] == "getTxs" { return t.getTxs(stub, args[1]) }
+	if args[0] == "getUserAccount" { return t.getUserAccount(stub, args[1]) }
+	if args[0] == "getContractDetails" { return t.getContractDetails(stub, args[1]) }
+	if args[0] == "getAllContracts" { return t.getAllContracts(stub) }
+	
+
+	return nil, nil										
 }
 
 
@@ -889,5 +876,4 @@ func FloatToString(input_num float64) string {
     // to convert a float number to a string
     return strconv.FormatFloat(input_num, 'f', 4, 64)
 }
-
 
